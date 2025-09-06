@@ -1,14 +1,142 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px #ccc;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background: #007BFF;
+            color: white;
+        }
+        tr:hover {
+            background: #f1f1f1;
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+
+<h1>Controle de Estoque</h1>
+
+<!-- Formulário para adicionar produtos -->
+<form id="addProductForm">
+    <h3>Adicionar Produto</h3>
+    <input type="text" id="productName" placeholder="Nome do produto" required>
+    <input type="text" id="productCode" placeholder="Código do produto" required>
+    <input type="number" id="productQuantity" placeholder="Quantidade" required min="0">
+    <button type="submit">Adicionar Produto</button>
+</form>
+
+<!-- Formulário para registrar venda -->
+<form id="sellProductForm">
+    <h3>Registrar Venda</h3>
+    <input type="text" id="sellProductCode" placeholder="Código do produto" required>
+    <input type="number" id="sellQuantity" placeholder="Quantidade vendida" required min="1">
+    <button type="submit">Registrar Venda</button>
+</form>
+
+<!-- Tabela de estoque -->
+<h3>Estoque Atual</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+        </tr>
+    </thead>
+    <tbody id="inventoryTable">
+        <!-- Produtos serão adicionados aqui -->
+    </tbody>
+</table>
+
+<script>
+    // Array para armazenar produtos
+    let products = [];
+
+    // Função para atualizar a tabela de estoque
+    function updateTable() {
+        const tableBody = document.getElementById('inventoryTable');
+        tableBody.innerHTML = '';
+        products.forEach(prod => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${prod.code}</td><td>${prod.name}</td><td>${prod.quantity}</td>`;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Adicionar produto
+    document.getElementById('addProductForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const name = document.getElementById('productName').value;
+        const code = document.getElementById('productCode').value;
+        const quantity = parseInt(document.getElementById('productQuantity').value);
+
+        // Verifica se produto já existe
+        const existing = products.find(p => p.code === code);
+        if(existing){
+            alert('Produto já cadastrado! Atualize a quantidade via venda.');
+        } else {
+            products.push({name, code, quantity});
+            updateTable();
+            this.reset();
+        }
+    });
+
+    // Registrar venda
+    document.getElementById('sellProductForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const code = document.getElementById('sellProductCode').value;
+        const quantity = parseInt(document.getElementById('sellQuantity').value);
+
+        const product = products.find(p => p.code === code);
+        if(product){
+            if(product.quantity >= quantity){
+                product.quantity -= quantity;
+                updateTable();
+                this.reset();
+            } else {
+                alert('Quantidade insuficiente em estoque!');
+            }
+        } else {
+            alert('Produto não encontrado!');
+        }
+    });
+
+</script>
+
 </body>
 </html>
