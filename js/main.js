@@ -1,52 +1,59 @@
 // Espera o DOM carregar para iniciar
 document.addEventListener('DOMContentLoaded', () => {
-    loadProducts();
 
-    // Adicionar produto
-    document.getElementById('addProductForm').addEventListener('submit', async function(e){
-        e.preventDefault();
-        const name = document.getElementById('productName').value;
-        const code = document.getElementById('productCode').value;
-        const quantity = parseInt(document.getElementById('productQuantity').value);
+  // Formulário para adicionar produtos
+  const addProductForm = document.getElementById('addProductForm');
+  addProductForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const productName = document.getElementById('productName').value;
+    const productCode = document.getElementById('productCode').value;
+    const productQuantity = document.getElementById('productQuantity').value;
 
-        const newProduct = { name, code, quantity };
-        await addProduct(newProduct);
-        loadProducts();
-        this.reset();
-    });
+    addProduct(productName, productCode, productQuantity)
+      .then(() => {
+        console.log('Produto adicionado com sucesso!');
+        addProductForm.reset();
+      })
+      .catch((error) => {
+        console.error('Erro ao adicionar produto: ', error);
+        alert('Erro ao adicionar produto: ' + error.message);
+      });
+  });
 
-    // Registrar venda
-    document.getElementById('sellProductForm').addEventListener('submit', async function(e){
-        e.preventDefault();
-        const code = document.getElementById('sellProductCode').value;
-        const quantitySold = parseInt(document.getElementById('sellQuantity').value);
+  // Formulário para registrar venda
+  const sellProductForm = document.getElementById('sellProductForm');
+  sellProductForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const productCode = document.getElementById('sellProductCode').value;
+    const sellQuantity = document.getElementById('sellQuantity').value;
 
-        const products = await getProducts();
-        const product = products.find(p => p.code === code);
+    sellProduct(productCode, sellQuantity)
+      .then(() => {
+        console.log('Venda registrada com sucesso!');
+        sellProductForm.reset();
+      })
+      .catch((error) => {
+        console.error('Erro ao registrar venda: ', error);
+        alert('Erro ao registrar venda: ' + error.message);
+      });
+  });
 
-        if(product){
-            if(product.quantity >= quantitySold){
-                const newQuantity = product.quantity - quantitySold;
-                await updateProductQuantity(code, newQuantity);
-                loadProducts();
-                this.reset();
-            } else {
-                alert('Quantidade insuficiente em estoque!');
-            }
-        } else {
-            alert('Produto não encontrado!');
-        }
-    });
-});
-
-// Carrega os produtos e atualiza a tabela
-async function loadProducts() {
-    const products = await getProducts();
+  // Ouvir as mudanças no estoque e atualizar a tabela
+  listenToStockChanges((products) => {
     const tableBody = document.getElementById('inventoryTable');
-    tableBody.innerHTML = '';
-    products.forEach(prod => {
+    tableBody.innerHTML = ''; // Limpa a tabela antes de adicionar os novos dados
+    products.sort((a, b) => a.code.localeCompare(b.code)); // Ordena por código
+
+    if (products.length === 0) {
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${prod.code}</td><td>${prod.name}</td><td>${prod.quantity}</td>`;
+        row.innerHTML = `<td colspan="3">Nenhum produto em estoque.</td>`;
         tableBody.appendChild(row);
-    });
-}
+    } else {
+        products.forEach(prod => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${prod.code}</td><td>${prod.name}</td><td>${prod.quantity}</td>`;
+            tableBody.appendChild(row);
+        });
+    }
+  });
+});

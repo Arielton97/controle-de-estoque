@@ -1,13 +1,10 @@
-// Cole aqui a configuração do seu projeto Firebase
-const firebaseConfig = {
-  apiKey: "SUA_API_KEY",
-  authDomain: "SEU_AUTH_DOMAIN",
-  projectId: "SEU_PROJECT_ID",
-  storageBucket: "SEU_STORAGE_BUCKET",
-  messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-  appId: "SEU_APP_ID"
-};
 
-// Inicializa o Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAMkrGPSALyn-tjyCf6M9de7se7R8cuXPA",
+  authDomain: "myapplication-2bda4315.firebaseapp.com",
+  projectId: "myapplication-2bda4315",
+  storageBucket: "myapplication-2bda4315.firebasestorage.app",
+  messagingSenderId: "703669506924",
+  appId: "1:703669506924:web:13fe1073c5fe5cc6565949"
+};

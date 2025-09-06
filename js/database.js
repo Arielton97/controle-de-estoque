@@ -1,36 +1,39 @@
 // Funções para interagir com o Firestore
 
-// Adicionar um novo produto
-async function addProduct(product) {
-    try {
-        await db.collection('products').doc(product.code).set(product);
-        console.log("Produto adicionado com sucesso!");
-    } catch (error) {
-        console.error("Erro ao adicionar produto: ", error);
-    }
+// Adicionar um novo produto ao estoque
+function addProduct(productName, productCode, productQuantity) {
+  return db.collection("products").doc(productCode).set({
+    name: productName,
+    code: productCode,
+    quantity: Number(productQuantity),
+  });
 }
 
-// Obter todos os produtos
-async function getProducts() {
-    try {
-        const snapshot = await db.collection('products').get();
-        let products = [];
-        snapshot.forEach(doc => {
-            products.push(doc.data());
-        });
-        return products;
-    } catch (error) {
-        console.error("Erro ao buscar produtos: ", error);
-        return [];
+// Registrar a venda de um produto
+async function sellProduct(productCode, sellQuantity) {
+  const productRef = db.collection("products").doc(productCode);
+  const doc = await productRef.get();
+
+  if (doc.exists) {
+    const currentQuantity = doc.data().quantity;
+    if (currentQuantity >= sellQuantity) {
+      const newQuantity = currentQuantity - sellQuantity;
+      return productRef.update({ quantity: newQuantity });
+    } else {
+      throw new Error("Quantidade em estoque insuficiente.");
     }
+  } else {
+    throw new Error("Produto não encontrado.");
+  }
 }
 
-// Atualizar a quantidade de um produto
-async function updateProductQuantity(code, newQuantity) {
-    try {
-        await db.collection('products').doc(code).update({ quantity: newQuantity });
-        console.log("Quantidade atualizada com sucesso!");
-    } catch (error) {
-        console.error("Erro ao atualizar quantidade: ", error);
-    }
+// Ouvir as mudanças no estoque em tempo real
+function listenToStockChanges(callback) {
+  db.collection("products").onSnapshot((snapshot) => {
+    const products = [];
+    snapshot.forEach((doc) => {
+      products.push(doc.data());
+    });
+    callback(products);
+  });
 }

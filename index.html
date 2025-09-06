@@ -45,11 +45,18 @@
 </div>
 
 <!-- Firebase SDK -->
-<script src="js/https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
-<script src="js/https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-firestore-compat.js"></script>
 
 <!-- Firebase Config -->
 <script src="js/firebase-config.js"></script>
+
+<!-- Firebase Initialization -->
+<script>
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
 
 <!-- Database and Main Logic -->
 <script src="js/database.js"></script>
