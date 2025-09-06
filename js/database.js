@@ -27,6 +27,11 @@ async function sellProduct(productCode, sellQuantity) {
   }
 }
 
+// Excluir um produto do estoque
+function deleteProduct(productCode) {
+  return db.collection("products").doc(productCode).delete();
+}
+
 // Ouvir as mudanças no estoque em tempo real
 function listenToStockChanges(callback) {
   db.collection("products").onSnapshot((snapshot) => {

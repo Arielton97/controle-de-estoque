@@ -18,13 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const addProductForm = document.getElementById('addProductForm');
   addProductForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const productName = document.getElementById('productName').value;
-    const productCode = document.getElementById('productCode').value;
-    const productQuantity = document.getElementById('productQuantity').value;
+    const productNameInput = document.getElementById('productName');
+    const productCodeInput = document.getElementById('productCode');
+    const productQuantityInput = document.getElementById('productQuantity');
+
+    const productName = productNameInput.value;
+    const productCode = productCodeInput.value;
+    const productQuantity = productQuantityInput.value;
 
     addProduct(productName, productCode, productQuantity)
       .then(() => {
-        console.log('Produto adicionado com sucesso!');
+        alert(`O produto '${productName}' foi adicionado com sucesso!`);
         addProductForm.reset();
       })
       .catch((error) => {
@@ -59,14 +63,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (products.length === 0) {
         const row = document.createElement('tr');
-        row.innerHTML = `<td colspan="3">Nenhum produto em estoque.</td>`;
+        row.innerHTML = `<td colspan="4">Nenhum produto em estoque.</td>`;
         tableBody.appendChild(row);
     } else {
         products.forEach(prod => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${prod.code}</td><td>${prod.name}</td><td>${prod.quantity}</td>`;
+            row.innerHTML = `
+                <td>${prod.code}</td>
+                <td>${prod.name}</td>
+                <td>${prod.quantity}</td>
+                <td>
+                    <button class="delete-btn" data-code="${prod.code}" data-name="${prod.name}">Excluir</button>
+                </td>
+            `;
             tableBody.appendChild(row);
         });
+    }
+  });
+
+  // Event listener para exclusão de produtos (usando delegação de eventos)
+  const inventoryTable = document.getElementById('inventoryTable');
+  inventoryTable.addEventListener('click', (e) => {
+    if (e.target && e.target.classList.contains('delete-btn')) {
+      const productCode = e.target.getAttribute('data-code');
+      const productName = e.target.getAttribute('data-name');
+      
+      // Mensagem de confirmação
+      if (confirm(`Tem certeza que deseja excluir o produto '${productName}'?`)) {
+        deleteProduct(productCode)
+          .then(() => {
+            alert(`Produto '${productName}' excluído com sucesso!`);
+          })
+          .catch((error) => {
+            console.error('Erro ao excluir produto: ', error);
+            alert('Erro ao excluir produto: ' + error.message);
+          });
+      }
     }
   });
 });
