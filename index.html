@@ -13,19 +13,23 @@
 
     <!-- Formulário para adicionar produtos -->
     <form id="addProductForm">
-        <h3>Adicionar Produto</h3>
-        <input type="text" id="productName" placeholder="Nome do produto" required>
-        <input type="text" id="productCode" placeholder="Código do produto" required>
-        <input type="number" id="productQuantity" placeholder="Quantidade" required min="0">
-        <button type="submit">Adicionar Produto</button>
+        <h3 class="collapsible">Adicionar Produto <span class="toggle-icon"></span></h3>
+        <div class="collapsible-content">
+            <input type="text" id="productName" placeholder="Nome do produto" required>
+            <input type="text" id="productCode" placeholder="Código do produto" required>
+            <input type="number" id="productQuantity" placeholder="Quantidade" required min="0">
+            <button type="submit">Adicionar Produto</button>
+        </div>
     </form>
 
     <!-- Formulário para registrar venda -->
     <form id="sellProductForm">
-        <h3>Registrar Venda</h3>
-        <input type="text" id="sellProductCode" placeholder="Código do produto" required>
-        <input type="number" id="sellQuantity" placeholder="Quantidade vendida" required min="1">
-        <button type="submit">Registrar Venda</button>
+        <h3 class="collapsible">Registrar Venda <span class="toggle-icon"></span></h3>
+        <div class="collapsible-content">
+            <input type="text" id="sellProductCode" placeholder="Código do produto" required>
+            <input type="number" id="sellQuantity" placeholder="Quantidade vendida" required min="1">
+            <button type="submit">Registrar Venda</button>
+        </div>
     </form>
 
     <!-- Tabela de estoque -->

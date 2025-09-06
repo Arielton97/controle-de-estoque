@@ -7,8 +7,9 @@ body {
     color: #333;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Alinhado ao topo */
     min-height: 100vh;
+    padding-top: 20px; /* Espaço no topo */
 }
 
 .container {
@@ -27,20 +28,59 @@ h1 {
 
 form {
     background: #fff;
-    padding: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Reduzido */
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     border: 1px solid #ddd;
+    overflow: hidden; /* Para conter o conteúdo */
 }
 
-h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
+/* Estilo do cabeçalho clicável */
+.collapsible {
+    margin: 0;
+    padding: 20px 30px;
     font-weight: 500;
     color: #1a73e8;
-    padding-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee; /* Borda inicial */
+    transition: background-color 0.3s;
+}
+
+.collapsible:hover {
+    background-color: #f9f9f9;
+}
+
+/* Ícone de expandir/recolher */
+.toggle-icon {
+    width: 1em;
+    height: 1em;
+    border-right: 2px solid #1a73e8;
+    border-bottom: 2px solid #1a73e8;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease-out;
+}
+
+/* Rotação do ícone quando ativo */
+.collapsible.active + .collapsible-content {
+    max-height: 500px; /* Altura suficiente para o conteúdo */
+    padding: 30px;
+}
+.collapsible.active .toggle-icon {
+    transform: rotate(-135deg);
+}
+.collapsible.active {
     border-bottom: 1px solid #eee;
+}
+
+/* Conteúdo recolhível */
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 30px; /* Padding lateral para alinhar */
+    transition: max-height 0.4s ease-in-out, padding 0.4s ease-in-out;
 }
 
 input[type="text"],
@@ -74,10 +114,15 @@ button {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 10px; /* Espaço acima do botão */
 }
 
 button:hover {
     background-color: #1558b3;
+}
+
+.stock-title {
+    margin-top: 30px;
 }
 
 table {
@@ -112,8 +157,9 @@ tr:hover {
     .container {
         padding: 10px;
     }
-    form {
-        padding: 20px;
+    .collapsible, .collapsible-content {
+        padding-left: 20px;
+        padding-right: 20px;
     }
     h1 {
         font-size: 24px;

@@ -1,5 +1,18 @@
-// Espera o DOM carregar para iniciar
 document.addEventListener('DOMContentLoaded', () => {
+
+  // Lógica para expandir/recolher os formulários
+  const collapsibles = document.querySelectorAll('.collapsible');
+  collapsibles.forEach(collapsible => {
+    collapsible.addEventListener('click', function() {
+      this.classList.toggle('active');
+      const content = this.nextElementSibling;
+      if (content.style.maxHeight) {
+        content.style.maxHeight = null;
+      } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+      }
+    });
+  });
 
   // Formulário para adicionar produtos
   const addProductForm = document.getElementById('addProductForm');
