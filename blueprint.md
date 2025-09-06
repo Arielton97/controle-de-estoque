@@ -2,28 +2,24 @@
 
 ## Visão Geral
 
-Uma aplicação simples de controle de estoque que permite aos usuários adicionar produtos, registrar vendas e visualizar o inventário atual.
+Uma aplicação simples de controle de estoque que permite aos usuários adicionar produtos, registrar vendas e visualizar o inventário atual, com os dados persistidos no Firebase Firestore.
 
 ## Recursos Implementados
 
-*   **Adicionar Produto:** Um formulário para adicionar um novo produto com nome, código e quantidade.
-*   **Vender Produto:** Um formulário para registrar a venda de um produto pelo seu código e quantidade.
-*   **Tabela de Inventário:** Uma tabela que exibe o estoque atual de todos os produtos.
-*   **Separação de Código:** A aplicação é estruturada com arquivos HTML, CSS e JavaScript separados.
+*   **Adicionar Produto:** Formulário para adicionar novos produtos.
+*   **Vender Produto:** Formulário para registrar vendas e atualizar o estoque.
+*   **Tabela de Inventário:** Exibe o estoque atual em tempo real.
+*   **UI Responsiva e Moderna:** Interface amigável e adaptada para dispositivos móveis.
+*   **Persistência de Dados:** Integração com o Firebase Firestore para salvar os dados na nuvem.
 
-## Plano Atual: UI Responsiva e Moderna
+## Plano Atual: Organização e Automação
 
-O objetivo atual é tornar a interface do usuário da aplicação responsiva para dispositivos móveis e dar a ela um design mais moderno e visualmente atraente, inspirado nos estilos de formulário do Google.
+O objetivo é refinar a estrutura do projeto, organizando os arquivos em pastas e automatizando a configuração do Firebase para um ambiente de desenvolvimento mais limpo e eficiente.
 
-### Passos:
+### Passos Concluídos:
 
-1.  **Criar `blueprint.md`:** Documentar o propósito do projeto, seus recursos e o plano de desenvolvimento atual.
-2.  **CSS Responsivo:**
-    *   Implementar media queries em `style.css` para adaptar o layout para telas menores.
-    *   Ajustar tamanhos de fonte, margens и preenchimento para melhor legibilidade em dispositivos móveis.
-3.  **Estilização de Formulário Moderno:**
-    *   Redesenhar os formulários e campos de entrada para terem uma aparência mais limpa e moderna.
-    *   Atualizar o esquema de cores e a tipografia para serem mais visualmente atraentes.
-    *   Usar CSS para criar um layout que se assemelhe aos Google Forms.
-4.  **Estrutura HTML:**
-    *   Envolver os componentes principais em um contêiner para melhor gerenciamento do layout.
+1.  **Criar Pastas:** Foram criadas as pastas `css` e `js` para organizar os arquivos de estilo e script.
+2.  **Mover Arquivos:** Os arquivos `style.css`, `main.js`, `database.js` e `firebase-config.js` foram movidos para suas respectivas pastas.
+3.  **Atualizar `index.html`:** Os caminhos no `index.html` foram atualizados para apontar para a nova localização dos arquivos.
+4.  **Obter Configuração do Firebase:** As configurações do SDK do Firebase para a plataforma web foram obtidas automaticamente.
+5.  **Preencher `firebase-config.js`:** O arquivo de configuração do Firebase foi preenchido com os dados do projeto ativo.
